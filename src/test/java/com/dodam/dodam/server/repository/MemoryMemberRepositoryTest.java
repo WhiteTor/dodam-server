@@ -32,6 +32,6 @@ class MemoryMemberRepositoryTest {
 
         Member result1 = respository.findByName("WhiteTor");
 
-        Assertions.assertThat(result1).isEqualTo(member2);
+        Assertions.assertThat(result1).isEqualTo(member1);
     }
 }
