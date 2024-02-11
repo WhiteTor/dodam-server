@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MySQLMemberRepository implements MemberRespository {
-
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -19,6 +18,7 @@ public class MySQLMemberRepository implements MemberRespository {
         jdbcTemplate.update(sql, member.getId(), member.getName());
         return member;
     }
+
 
     @Override
     public Member findById(String id) {
