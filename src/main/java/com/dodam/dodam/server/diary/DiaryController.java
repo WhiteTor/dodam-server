@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes("diary")
 public class DiaryController {
 
     @Autowired
@@ -27,15 +27,22 @@ public class DiaryController {
     public String viewDiary(Model model, DiaryDTO dto) {
         int diaries = service.getdiary(dto);
         model.addAttribute("diaries", diaries);
+        return "diary/selected";
+    }
+
+    @GetMapping("/diary/all")
+    public String viewAllDiary(Model model, DiaryDTO dto) {
+            int diaries = service.getAlldiary(dto);
+        model.addAttribute("diaries", diaries);
         return "diary/list";
     }
 
     //수정
     @GetMapping("/updatediary")
-    public String updateDiary(@ModelAttribute("user") DiaryDTO dto) { return "diary/updateform"; }
+    public String updateDiary(@ModelAttribute DiaryDTO dto) { return "diary/updateform"; }
 
     @PutMapping("/update")
-    public String update(@ModelAttribute("user") DiaryDTO dto, SessionStatus status) {
+    public String update(@ModelAttribute DiaryDTO dto, SessionStatus status) {
         service.updatediary(dto);
         status.setComplete();
         return "redirect:/diary";
@@ -50,7 +57,7 @@ public class DiaryController {
     }
 
     @DeleteMapping("/delete")
-    public String delete(@ModelAttribute("user") DiaryDTO dto,
+    public String delete(@ModelAttribute DiaryDTO dto,
                          SessionStatus status,
                          RedirectAttributes redirectAttributes) {
         int i = service.deletediary(dto);

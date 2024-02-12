@@ -18,4 +18,5 @@ public class DiaryService {
 
     public int getdiary(DiaryDTO dto) { return dao.getdiary(dto); }
 
+    public int getAlldiary(DiaryDTO dto) { return dao.getAlldiary(dto); }
 }

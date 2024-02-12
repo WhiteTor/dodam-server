@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dodam.dodam.server.diary.DiaryDAO">
+    <!-- 게시글 작성 -->
+    <insert id="postdiary" parameterType="com.dodam.dodam.server.diary.DiaryDTO">
+        insert into diary values(#{userid}, #{title}, #{content}, #{creationdate}, #{diaryid}, #{photo})
+    </insert>
+
+    <!-- 게시글 불러오기 -->
+    <select id="getdiary" parameterType="com.dodam.dodam.server.diary.DiaryDTO" resultType="com.dodam.dodam.server.diary.DiaryDTO">
+        select * from diary where diaryid = #{diaryid} and userid = #{userid}
+    </select>
+
+    <!-- 전체 게시글 불러오기 -->
+    <select id="getAlldiary" parameterType="com.dodam.dodam.server.diary.DiaryDTO" resultType="com.dodam.dodam.server.diary.DiaryDTO">
+        select * from diary where userid = #{userid}
+    </select>
+
+    <!-- 게시글 수정 -->
+    <update id="updatediary" parameterType="com.dodam.dodam.server.diary.DiaryDTO">
+        update diary set title = #{title}, content = #{content}, photo = #{photo} where diaryid = #{diaryid} and userid = #{userid}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteUser" parameterType="String">
+        delete from diary where diaryid = #{diaryid} and userid = #{userid}
+    </delete>
+</mapper>
+
