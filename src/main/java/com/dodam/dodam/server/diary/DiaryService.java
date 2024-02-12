@@ -9,11 +9,13 @@ public class DiaryService {
     @Autowired
     DiaryDAO dao;
 
-    public int posting(DiaryDTO dto) { return dao.posting(dto); }
-    public int deletepost(DiaryDTO dto) {
+    public int postdiary(DiaryDTO dto) { return dao.postdiary(dto); }
+    public int deletediary(DiaryDTO dto) {
         // 삭제하시겠습니까?? 에 해당하는 무언가가 들어가야 할 것 같은데..
+        return dao.deletediary(dto);
     }
-    public int updatepost(DiaryDTO dto) { return dao.updatepost(dto); }
+    public int updatediary(DiaryDTO dto) { return dao.updatediary(dto); }
 
+    public int getdiary(DiaryDTO dto) { return dao.getdiary(dto); }
 
 }

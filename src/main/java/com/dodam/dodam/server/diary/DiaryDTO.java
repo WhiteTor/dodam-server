@@ -1,5 +1,8 @@
 package com.dodam.dodam.server.diary;
 
+import lombok.Data;
+
+@Data
 public class DiaryDTO {
 
     private String userid;
