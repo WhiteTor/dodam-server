@@ -3,6 +3,8 @@ package com.dodam.dodam.server.diary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiaryService {
 
@@ -18,5 +20,5 @@ public class DiaryService {
 
     public int getdiary(DiaryDTO dto) { return dao.getdiary(dto); }
 
-    public int getAlldiary(DiaryDTO dto) { return dao.getAlldiary(dto); }
+    public List<DiaryDTO> getAlldiary(DiaryDTO dto) { return dao.getAlldiary(dto); }
 }

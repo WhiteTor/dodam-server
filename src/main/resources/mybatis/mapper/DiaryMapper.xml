@@ -13,7 +13,7 @@
 
     <!-- 전체 게시글 불러오기 -->
     <select id="getAlldiary" parameterType="com.dodam.dodam.server.diary.DiaryDTO" resultType="com.dodam.dodam.server.diary.DiaryDTO">
-        select * from diary where userid = #{userid}
+        select * from diary
     </select>
 
     <!-- 게시글 수정 -->
@@ -22,7 +22,7 @@
     </update>
 
     <!-- 회원 탈퇴 -->
-    <delete id="deleteUser" parameterType="String">
+    <delete id="deletediary" parameterType="String">
         delete from diary where diaryid = #{diaryid} and userid = #{userid}
     </delete>
 </mapper>

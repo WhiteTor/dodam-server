@@ -5,6 +5,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 public interface DiaryDAO {
 
@@ -12,6 +14,6 @@ public interface DiaryDAO {
     public int deletediary(DiaryDTO dto);
     public int updatediary(DiaryDTO dto);
     public int getdiary(DiaryDTO dto);
-    public int getAlldiary(DiaryDTO dto);
+    public List<DiaryDTO> getAlldiary(DiaryDTO dto);
 
 }

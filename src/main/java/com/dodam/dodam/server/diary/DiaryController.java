@@ -32,7 +32,7 @@ public class DiaryController {
 
     @GetMapping("/diary/all")
     public String viewAllDiary(Model model, DiaryDTO dto) {
-            int diaries = service.getAlldiary(dto);
+        List diaries = service.getAlldiary(dto);
         model.addAttribute("diaries", diaries);
         return "diary/list";
     }
@@ -45,6 +45,7 @@ public class DiaryController {
     public String update(@ModelAttribute DiaryDTO dto, SessionStatus status) {
         service.updatediary(dto);
         status.setComplete();
+
         return "redirect:/diary";
     }
 
