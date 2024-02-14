@@ -8,29 +8,31 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @SessionAttributes("diary")
+@RequestMapping("/diary")
 public class DiaryController {
 
     @Autowired
     DiaryService service;
 
     //작성?
-    @PostMapping("/diary")
+    @PostMapping("/postdiary")
     public String writeDiary(DiaryDTO dto) {
         service.postdiary(dto);
         return "redirect:/diary";
     }
 
-    @GetMapping("/diary")
+    @GetMapping("/postdiary")
     public String viewDiary(Model model, DiaryDTO dto) {
-        int diaries = service.getdiary(dto);
+        DiaryDTO diaries = service.getdiary(dto);
         model.addAttribute("diaries", diaries);
         return "diary/selected";
     }
 
-    @GetMapping("/diary/all")
+    @GetMapping("/getdiary/all")
     public String viewAllDiary(Model model, DiaryDTO dto) {
         List diaries = service.getAlldiary(dto);
         model.addAttribute("diaries", diaries);
@@ -38,7 +40,7 @@ public class DiaryController {
     }
 
     //수정
-    @GetMapping("/updatediary")
+    /* @GetMapping("/updatediary")
     public String updateDiary(@ModelAttribute DiaryDTO dto) { return "diary/updateform"; }
 
     @PutMapping("/update")
@@ -47,7 +49,26 @@ public class DiaryController {
         status.setComplete();
 
         return "redirect:/diary";
+    } */
+
+    // 일부 수정
+    @GetMapping("/updatediary")
+    public String updateDiary(@ModelAttribute DiaryDTO dto) {
+        return "diary/updateform";
     }
+
+    @PatchMapping("/update")
+    public String partialUpdate(@RequestBody Map<String, Object> updates,
+                                @RequestParam String diaryid,
+                                @RequestParam String userid,
+                                SessionStatus status) {
+        updates.remove("creationdate"); // creationdate는 수정 불가능하도록 제거
+        service.updateDiaryPartially(updates, diaryid, userid);
+        status.setComplete();
+
+        return "redirect:/diary";
+    }
+
 
     //삭제
     @GetMapping("/deletediary")

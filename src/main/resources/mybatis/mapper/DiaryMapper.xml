@@ -3,7 +3,7 @@
 <mapper namespace="com.dodam.dodam.server.diary.DiaryDAO">
     <!-- 게시글 작성 -->
     <insert id="postdiary" parameterType="com.dodam.dodam.server.diary.DiaryDTO">
-        insert into diary values(#{userid}, #{title}, #{content}, #{creationdate}, #{diaryid}, #{photo})
+        insert into diary values(#{userid}, #{title}, #{content}, #{creationdate}, #{diaryid}, #{photo, jdbcType=INTEGER})
     </insert>
 
     <!-- 게시글 불러오기 -->
@@ -20,6 +20,24 @@
     <update id="updatediary" parameterType="com.dodam.dodam.server.diary.DiaryDTO">
         update diary set title = #{title}, content = #{content}, photo = #{photo} where diaryid = #{diaryid} and userid = #{userid}
     </update>
+
+    <update id="partialUpdate">
+        UPDATE diary
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="photo != null">
+                photo = #{photo},
+            </if>
+            <!-- 여기에 다른 필드에 대한 업데이트 로직 추가... -->
+        </set>
+        WHERE diaryid = #{diaryid} AND userid = #{userid}
+    </update>
+
 
     <!-- 회원 탈퇴 -->
     <delete id="deletediary" parameterType="String">
