@@ -1,5 +1,6 @@
 package com.dodam.dodam.server.album;
 
+import com.dodam.dodam.server.diary.DiaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +16,8 @@ public class AlbumService {
     public int postalbum(AlbumDTO dto) { return dao.postalbum(dto); }
     public int deletealbum(AlbumDTO dto) { return dao.deletealbum(dto); }
 
-    public void updateAlbumPartially(Map<String, Object> updates, String albumid, String userid) {
-        AlbumDTO dto = new AlbumDTO();
-        dto.setAlbumid(albumid);
-        dto.setUserid(userid);
-        AlbumDTO existingAlbum = dao.getalbum(dto);
-        if (existingAlbum == null) {
-            throw new IllegalArgumentException("Diary not found");
-        }
-
-        if (updates.containsKey("title")) {
-            existingAlbum.setTitle((String) updates.get("title"));
-        }
-        if (updates.containsKey("photo")) {
-            existingAlbum.setPhoto((String) updates.get("photo"));
-        }
-
-        dao.partialUpdate(existingAlbum);
+    public int partialUpdate(AlbumDTO dto) {
+        return dao.partialUpdate(dto);
     }
 
     public AlbumDTO getalbum(AlbumDTO dto) { return dao.getalbum(dto); }

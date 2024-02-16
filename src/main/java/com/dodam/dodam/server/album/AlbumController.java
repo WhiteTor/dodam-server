@@ -2,16 +2,11 @@ package com.dodam.dodam.server.album;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
-@Controller
-@SessionAttributes("album")
+@RestController
 @RequestMapping("/album")
 public class AlbumController {
 
@@ -19,65 +14,44 @@ public class AlbumController {
     AlbumService service;
 
     // 작성..
-    @PostMapping("/postalbum")
-    public String writeAlbum(AlbumDTO dto) {
+    @PostMapping("/post")
+    public AlbumDTO writeAlbum(@RequestBody AlbumDTO dto) {
         service.postalbum(dto);
-        return "redirect:/album";
+        return dto;
     }
 
-    @GetMapping("/postalbum")
-    public String viewAlbum(Model model, AlbumDTO dto) {
-        AlbumDTO albums = service.getalbum(dto);
-        model.addAttribute("albums", albums);
-        return "album/selected";
+    @GetMapping("/{albumid}/{userid}")
+    public AlbumDTO viewAlbum(@PathVariable("albumid") String albumid, @PathVariable("userid") String userid) {
+        AlbumDTO dto = new AlbumDTO();
+        dto.setAlbumid(albumid);
+        dto.setUserid(userid);
+        return service.getalbum(dto);
     }
 
     // 전체 조회
-    @GetMapping("/getalbum/all")
-    public String viewAllAlbum(Model model, AlbumDTO dto) {
-        List albums = service.getAllalbum(dto);
-        model.addAttribute("albums", albums);
-        return "album/list";
+    @GetMapping("/all/{userid}")
+    public List<AlbumDTO> viewAllAlbum(@PathVariable("userid") String userid) {
+        AlbumDTO dto = new AlbumDTO();
+        dto.setUserid(userid);
+        return service.getAllalbum(dto);
     }
 
     // 수정
-    @GetMapping("/updatealbum")
-    public String updateAlbum(@ModelAttribute AlbumDTO dto) { return "album/updateform"; }
-
-    @PatchMapping("/update")
-    public String partialUpdate(@RequestBody Map<String, Object> updates,
-                                @RequestParam String albumid,
-                                @RequestParam String userid,
-                                SessionStatus status) {
-        updates.remove("creationdate");
-        service.updateAlbumPartially(updates, albumid, userid);
-        status.setComplete();
-
-        return "redirect:/diary";
+    @PutMapping("/update/{albumid}/{userid}")
+    public AlbumDTO updateAlbum(@RequestBody AlbumDTO dto, @PathVariable("albumid") String albumid, @PathVariable("userid") String userid) {
+        dto.setAlbumid(albumid);
+        dto.setUserid(userid);
+        service.partialUpdate(dto);
+        return dto;
     }
 
     //삭제
-    @GetMapping("/deletealbum")
-    public String deletealbum(String result, Model m) {
-        m.addAttribute("result", result);
-
-        return "album/deleteform";
-    }
-
-    @DeleteMapping("/delete")
-    public String delete(@ModelAttribute AlbumDTO dto,
-                         SessionStatus status,
-                         RedirectAttributes redirectAttributes) {
-        int i = service.deletealbum(dto);
-
-        if (i == 0) {
-            redirectAttributes.addFlashAttribute("result", "false");
-            return "redirect:/deleteform";
-        }
-        else {
-            redirectAttributes.addFlashAttribute("result", "success");
-            status.setComplete();
-            return "redirect:/";
-        }
+    @DeleteMapping("/delete/{albumid}/{userid}")
+    public String deleteAlbum(@PathVariable("albumid") String albumid, @PathVariable("userid") String userid) {
+        AlbumDTO dto = new AlbumDTO();
+        dto.setAlbumid(albumid);
+        dto.setUserid(userid);
+        int result = service.deletealbum(dto);
+        return result == 1 ? "success" : "fail";
     }
 }
