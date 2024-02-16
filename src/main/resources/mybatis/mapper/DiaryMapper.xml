@@ -33,13 +33,12 @@
             <if test="photo != null">
                 photo = #{photo},
             </if>
-            <!-- 여기에 다른 필드에 대한 업데이트 로직 추가... -->
         </set>
         WHERE diaryid = #{diaryid} AND userid = #{userid}
     </update>
 
 
-    <!-- 회원 탈퇴 -->
+    <!-- 게시글 삭제 -->
     <delete id="deletediary" parameterType="String">
         delete from diary where diaryid = #{diaryid} and userid = #{userid}
     </delete>

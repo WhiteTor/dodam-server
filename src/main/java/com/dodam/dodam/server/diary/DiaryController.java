@@ -32,6 +32,7 @@ public class DiaryController {
         return "diary/selected";
     }
 
+    // 전체 조회
     @GetMapping("/getdiary/all")
     public String viewAllDiary(Model model, DiaryDTO dto) {
         List diaries = service.getAlldiary(dto);
@@ -77,6 +78,7 @@ public class DiaryController {
 
         return "diary/deleteform";
     }
+
 
     @DeleteMapping("/delete")
     public String delete(@ModelAttribute DiaryDTO dto,

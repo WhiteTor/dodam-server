@@ -38,7 +38,6 @@ public class DiaryService {
         if (updates.containsKey("photo")) {
             existingDiary.setPhoto((String) updates.get("photo"));
         }
-        // 여기에 다른 필드에 대한 업데이트 로직 추가...
 
         dao.partialUpdate(existingDiary);
     }

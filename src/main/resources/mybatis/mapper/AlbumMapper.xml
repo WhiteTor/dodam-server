@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dodam.dodam.server.album.AlbumDAO">
-    
+    <!-- 게시글 작성 -->
+    <insert id="postalbum" parameterType="com.dodam.dodam.server.album.AlbumDTO">
+        insert into album values(#{userid}, #{title}, #{creationdate}, #{albumid}, #{photo})
+    </insert>
+
+    <!-- 게시글 불러오기 -->
+    <select id="getalbum" parameterType="com.dodam.dodam.server.album.AlbumDTO" resultType="com.dodam.dodam.server.album.AlbumDTO">
+        select * from album where albumid = #{albumid} and userid = #{userid}
+    </select>
+
+    <!-- 전체 게시글 불러오기 -->
+    <select id="getAllalbum" parameterType="com.dodam.dodam.server.album.AlbumDTO" resultType="com.dodam.dodam.server.album.AlbumDTO">
+        select * from album
+    </select>
+
+    <!-- 게시글 수정 -->
+    <update id="updatealbum" parameterType="com.dodam.dodam.server.album.AlbumDTO">
+        update album set title = #{title}, photo = #{photo} where albumid = #{albumid} and userid = #{userid}
+    </update>
+
+    <update id="partialUpdate">
+        UPDATE album
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="photo != null">
+                photo = #{photo},
+            </if>
+        </set>
+        WHERE albumid = #{albumid} AND userid = #{userid}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deletealbum" parameterType="String">
+        delete from album where albumid = #{albumid} and userid = #{userid}
+    </delete>
 </mapper>
 
