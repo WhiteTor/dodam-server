@@ -1,16 +1,12 @@
 package com.dodam.dodam.server.diary;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
-@Controller
+
+/*@Controller
 @SessionAttributes("diary")
 @RequestMapping("/diary")
 public class DiaryController {
@@ -39,18 +35,6 @@ public class DiaryController {
         model.addAttribute("diaries", diaries);
         return "diary/list";
     }
-
-    //수정
-    /* @GetMapping("/updatediary")
-    public String updateDiary(@ModelAttribute DiaryDTO dto) { return "diary/updateform"; }
-
-    @PutMapping("/update")
-    public String update(@ModelAttribute DiaryDTO dto, SessionStatus status) {
-        service.updatediary(dto);
-        status.setComplete();
-
-        return "redirect:/diary";
-    } */
 
     // 일부 수정
     @GetMapping("/updatediary")
@@ -95,5 +79,51 @@ public class DiaryController {
             status.setComplete();
             return "redirect:/";
         }
+    }
+}*/
+
+@RestController
+@RequestMapping("/diary")
+public class DiaryController {
+
+    @Autowired
+    DiaryService service;
+
+    @PostMapping("/post")
+    public DiaryDTO writeDiary(@RequestBody DiaryDTO dto) {
+        service.postdiary(dto);
+        return dto;  // 새로 작성된 diary 반환
+    }
+
+    @GetMapping("/{diaryid}/{userid}")
+    public DiaryDTO viewDiary(@PathVariable("diaryid") String diaryid, @PathVariable("userid") String userid) {
+        DiaryDTO dto = new DiaryDTO();
+        dto.setDiaryid(diaryid);
+        dto.setUserid(userid);
+        return service.getdiary(dto);
+    }
+
+    @GetMapping("/all/{userid}")
+    public List<DiaryDTO> viewAllDiary(@PathVariable("userid") String userid) {
+        DiaryDTO dto = new DiaryDTO();
+        dto.setUserid(userid);
+        return service.getAlldiary(dto);
+    }
+
+    @PutMapping("/update/{diaryid}/{userid}")
+    public DiaryDTO updateDiary(@RequestBody DiaryDTO dto, @PathVariable("diaryid") String diaryid, @PathVariable("userid") String userid) {
+        dto.setDiaryid(diaryid);
+        dto.setUserid(userid);
+        service.partialUpdate(dto);
+        return dto;  // 수정된 diary 반환
+    }
+
+    @DeleteMapping("/delete/{diaryid}/{userid}")
+    public String deleteDiary(@PathVariable("diaryid") String diaryid, @PathVariable("userid") String userid) {
+        DiaryDTO dto = new DiaryDTO();
+        dto.setDiaryid(diaryid);
+        dto.setUserid(userid);
+        int result = service.deletediary(dto);
+        return result == 1 ? "success" : "fail";  // 삭제 성공 여부 반환
     }
 }

@@ -18,6 +18,9 @@ public class DiaryService {
         return dao.deletediary(dto);
     }
 
+    public int partialUpdate(DiaryDTO dto) {
+        return dao.partialUpdate(dto);
+    }
     //public int updatediary(DiaryDTO dto) { return dao.updatediary(dto); }
 
     public void updateDiaryPartially(Map<String, Object> updates, String diaryid, String userid) {
