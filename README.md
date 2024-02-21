@@ -9,12 +9,12 @@ Dodam은 Spring, MySQL을 이용해 서버를 구성합니다. 산모수첩, 앨
 
 ## 실행
 
-Clone 등을 통해 코드를 받고, Eclipse 등의 IDE를 통해 프로젝트를 오픈합니다. 이때 Java는 17 ~~~~~~ 의 버전을 갖춰야 하며, Maven을 통해 필요한 라이브러리를 다운받습니다. 이후, DodamMobileApplication.java를 실행합니다.
+Clone 등을 통해 코드를 받고, Eclipse 등의 IDE를 통해 프로젝트를 오픈합니다. 이때 Java 버전은 17이며 Springboot 3.2.2이며, Maven을 통해 필요한 라이브러리를 다운받습니다. 이후, DodamMobileApplication.java를 실행합니다.
 
 ## 사용한 기술
 
-Spring
-MySQL
+Spring   
+MySQL   
 MyBatis
 
 ## 개발자 정보
